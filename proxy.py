@@ -1,19 +1,31 @@
-import socket
+import yaml
 import time
-import threading
-import select
 from core.trackmania import Trackmania
 from core.tcp import TcpRelay
 from core.udp import UdpRelay
 from core.debug import debugmsg
 
 worker = True
+config = {}
 
 
 if __name__ == '__main__':
-    remoteHost = '157.90.229.248'
-    remotePort = 2350
-    debugmsg('MAIN', 'starting proxy and redirecting local port {} to {}'.format(remoteHost, remotePort))
+    try:
+        with open("config.yaml", "r") as stream:
+            try:
+                config = yaml.safe_load(stream)
+            except yaml.YAMLError as exc:
+                quit()
+    except EnvironmentError:
+        debugmsg('MAIN', 'could not find config.yaml - is it there?')
+        quit()
+    try:
+        remoteHost = str(config['server']['ip'])
+        remotePort = int(config['server']['port'])
+    except:
+        debugmsg('MAIN', 'could not find sever IP and / or PORT - is it defined in the config?')
+        quit()
+    debugmsg('MAIN', 'starting trackmania proxy and redirecting local port {} to {}'.format(remoteHost, remotePort))
     tcp = TcpRelay(remoteHost, remotePort)
     tcp.start_thread()
     udp = UdpRelay(remoteHost, remotePort)
@@ -21,7 +33,7 @@ if __name__ == '__main__':
     tm = Trackmania(remotePort)
     tm.start_thread()
     try:
-        debugmsg('MAIN', 'startup complete')
+        debugmsg('MAIN', 'startup complete - run game and search for local servers')
         while(True):
             time.sleep(.5)
     except KeyboardInterrupt:
