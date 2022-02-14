@@ -34,7 +34,7 @@ if __name__ == '__main__':
     # check for IP address if automatic
     if clientIP == "automatic":
         clientIP = get_ip_address(networkCheckIP)
-    debugmsg('MAIN', 'starting trackmania proxy and redirecting local port {} to {}'.format(remoteHost, remotePort))
+    debugmsg('MAIN', 'try to redirect local address {}:{} to {}:{}'.format(clientIP, remotePort, remoteHost, remotePort))
     tcp = TcpRelay(clientIP, remoteHost, remotePort)
     tcp.start_thread()
     udp = UdpRelay(clientIP, remoteHost, remotePort)
@@ -42,7 +42,9 @@ if __name__ == '__main__':
     tm = Trackmania(clientIP, remotePort)
     tm.start_thread()
     try:
+        debugmsg('MAIN', '===')
         debugmsg('MAIN', 'startup complete - run game and search for local servers')
+        debugmsg('MAIN', '===')
         while(True):
             time.sleep(.5)
     except KeyboardInterrupt:
