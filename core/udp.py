@@ -8,11 +8,11 @@ class UdpRelay:
     Relay for UDP
     """
 
-    def __init__(self, remote_address="127.0.0.1", remote_port=9987):
+    def __init__(self, local_address="127.0.0.1", remote_address="127.0.0.1", remote_port=9987):
         debugmsg('UDP', 'starting UDP proxy')
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.knownServer = (remote_address, remote_port)
-        self.socket.bind(('', remote_port))
+        self.socket.bind((local_address, remote_port))
         self.knownClient = None
 
         self.thread = None

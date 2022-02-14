@@ -25,11 +25,11 @@ class TcpRelay:
     Relay for TCP
     """
 
-    def __init__(self, remote_address="127.0.0.1", remote_port=9987):
+    def __init__(self, local_address="127.0.0.1", remote_address="127.0.0.1", remote_port=9987):
         debugmsg('TCP', 'starting TCP proxy')
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.socket.bind(('', remote_port))
+        self.socket.bind((local_address, remote_port))
         self.socket.listen()
         self.remote_address = remote_address
         self.remote_port = remote_port

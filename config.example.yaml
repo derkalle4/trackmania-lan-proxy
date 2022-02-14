@@ -1,3 +1,5 @@
+client:
+  ip: 0.0.0.0 # IP to bind proxy to
 server:
   ip: 192.168.178.10 # IP of trackmania server
   port: 2350 # port of trackmania server

@@ -20,17 +20,18 @@ if __name__ == '__main__':
         debugmsg('MAIN', 'could not find config.yaml - is it there?')
         quit()
     try:
+        clientIP = str(config['client']['ip'])
         remoteHost = str(config['server']['ip'])
         remotePort = int(config['server']['port'])
     except:
         debugmsg('MAIN', 'could not find sever IP and / or PORT - is it defined in the config?')
         quit()
     debugmsg('MAIN', 'starting trackmania proxy and redirecting local port {} to {}'.format(remoteHost, remotePort))
-    tcp = TcpRelay(remoteHost, remotePort)
+    tcp = TcpRelay(clientIP, remoteHost, remotePort)
     tcp.start_thread()
-    udp = UdpRelay(remoteHost, remotePort)
+    udp = UdpRelay(clientIP, remoteHost, remotePort)
     udp.start_thread()
-    tm = Trackmania(remotePort)
+    tm = Trackmania(clientIP, remotePort)
     tm.start_thread()
     try:
         debugmsg('MAIN', 'startup complete - run game and search for local servers')

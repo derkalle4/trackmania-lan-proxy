@@ -10,10 +10,10 @@ class Trackmania:
     LAN reply for Trackmania
     """
 
-    def __init__(self, remote_port=2350):
+    def __init__(self, local_address="127.0.0.1", remote_port=2350):
         debugmsg('TM', 'starting Trackmania LAN reply')
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.socket.bind(('', remote_port + 1))
+        self.socket.bind((local_address, remote_port + 1))
         self.thread = None
         self.run_loop = True
 
