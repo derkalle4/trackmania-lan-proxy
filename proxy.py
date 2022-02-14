@@ -34,11 +34,6 @@ if __name__ == '__main__':
     # check for IP address if automatic
     if clientIP == "automatic":
         clientIP = get_ip_address(networkCheckIP)
-        debugmsg('NetworkCheck', 'found public interface {} for incoming connections'.format(clientIP))
-        if clientIP is False:
-            # fallback
-            clientIP = '0.0.0.0'
-            debugmsg('NetworkCheck', 'could determine public interface, using fallback 0.0.0.0 instead')
     debugmsg('MAIN', 'starting trackmania proxy and redirecting local port {} to {}'.format(remoteHost, remotePort))
     tcp = TcpRelay(clientIP, remoteHost, remotePort)
     tcp.start_thread()
