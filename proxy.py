@@ -4,6 +4,7 @@ from core.trackmania import Trackmania
 from core.tcp import TcpRelay
 from core.udp import UdpRelay
 from core.debug import debugmsg
+from core.network import get_ip_address
 
 worker = True
 config = {}
@@ -21,11 +22,20 @@ if __name__ == '__main__':
         quit()
     try:
         clientIP = str(config['client']['ip'])
+        networkCheckIP = str(config['client']['networkCheck'])
         remoteHost = str(config['server']['ip'])
         remotePort = int(config['server']['port'])
     except:
         debugmsg('MAIN', 'could not find sever IP and / or PORT - is it defined in the config?')
         quit()
+    # check for IP address if automatic
+    if clientIP == "automatic":
+        clientIP = get_ip_address(networkCheckIP)
+        debugmsg('NetworkCheck', 'found public interface {} for incoming connections'.format(clientIP))
+        if clientIP is False:
+            # fallback
+            clientIP = '0.0.0.0'
+            debugmsg('NetworkCheck', 'could determine public interface, using fallback 0.0.0.0 instead')
     debugmsg('MAIN', 'starting trackmania proxy and redirecting local port {} to {}'.format(remoteHost, remotePort))
     tcp = TcpRelay(clientIP, remoteHost, remotePort)
     tcp.start_thread()

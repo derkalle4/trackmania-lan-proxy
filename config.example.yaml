@@ -1,5 +1,6 @@
 client:
-  ip: 0.0.0.0 # IP to bind proxy to
+  ip: automatic # IP to bind proxy to (normally "automatic" or "0.0.0.0" to listen to all network interfaces)
+  networkCheck: 192.168.178.10 # IP to ping to check for correct client IP (set client IP to "automatic")
 server:
   ip: 192.168.178.10 # IP of trackmania server
   port: 2350 # port of trackmania server
