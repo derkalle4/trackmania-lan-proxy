@@ -5,12 +5,15 @@ from core.tcp import TcpRelay
 from core.udp import UdpRelay
 from core.debug import debugmsg
 from core.network import get_ip_address
+from core.header import print_header
 
 worker = True
 config = {}
 
 
 if __name__ == '__main__':
+    # print header
+    print_header()
     try:
         with open("config.yaml", "r") as stream:
             try:
